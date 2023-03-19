@@ -1,0 +1,27 @@
+{
+  "background_color": "#201616",
+  "description": "Este é o aplicativo do melhor banco digital!",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "AppleBank",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "AppBank",
+  "start_url": "/",
+  "theme_color": "#8f8787",
+  "categories": [
+    "business",
+    "finance"
+  ],
+  "screenshots": [],
+  "icons": [
+    {
+      "src": "images/1024.png",
+      "type": "image/png",
+      "sizes": "1024x1024"
+    }
+  ],
+  "shortcuts": [],
+  "iarc_rating_id": "+18",
+  "prefer_related_applications": false
+}
