@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pwaTeste+-v1.2';
+const CACHE_NAME = 'pwaAppBank';
 const urlsToCache = [
   '/index.html',
   '/assets/css/main.css',
@@ -6,13 +6,7 @@ const urlsToCache = [
   '/assets/js/main.js',
 
 
-  '/assets/img/blog/blog-1.webp',
-  '/assets/img/blog/blog-2.webp',
-  '/assets/img/blog/blog-3.webp',
-  '/assets/img/blog/blog-4.webp',
-  '/assets/img/blog/blog-5.webp',
-  '/assets/img/blog/blog-6.webp',
-  '/assets/img/favicon1.png',
+  
   
 ];
 
