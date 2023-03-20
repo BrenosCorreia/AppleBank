@@ -7,11 +7,15 @@
 <html lang="pt-br">
 	<head>
 		<title>AppleBank</title>
+		<meta name="theme-color" content="#8f8787"/>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, maximum-scale=2" />
 		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="icon" href="images/1024.png">
+		<link rel="icon" href="images/maskable_icon.png">
+		<link rel="apple-touch-icon" href="/images/ios/192.png">
 		<link rel="manifest" href="Manifest.json">
+		<link rel="preconect" href="https://applebank.netlify.app/">
+		<link rel="preload" href="https://applebank.netlify.app/"
 	</head>
 	<body class="landing is-preload">
 		<div id="page-wrapper">
@@ -170,6 +174,14 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+
+
+			<script>
+				if (typeof navigator.serviceWorker !== 'undefined') {
+				  navigator.serviceWorker.register('sw.js')
+				}
+			  </script>
+  
 
 			
 

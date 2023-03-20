@@ -9,7 +9,7 @@
   "orientation": "any",
   "scope": "/",
   "short_name": "AppBank",
-  "start_url": "/",
+  "start_url": "https://applebank.netlify.app/",
   "theme_color": "#8f8787",
   "categories": [
     "business",
@@ -464,6 +464,14 @@
     {
       "src": "ios/1024.png",
       "sizes": "1024x1024"
+    },
+
+    {
+      "src" :"ios/maskable_icon",
+      "sizes": "1024x1024",
+      "type" : "image/png",
+      "purpose": "any maskable"
+
     }
   ],
   "shortcuts": [],
