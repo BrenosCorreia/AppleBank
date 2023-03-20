@@ -1,47 +1,73 @@
-// This is the "Offline page" service worker
+const CACHE_NAME = 'pwaTeste+-v1.2';
+const urlsToCache = [
+  '/index.html',
+  '/assets/css/main.css',
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+  '/assets/js/main.js',
 
-const CACHE = "pwabuilder-page";
 
-// TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
-const offlineFallbackPage = "ToDo-replace-this-name.html";
+  '/assets/img/blog/blog-1.webp',
+  '/assets/img/blog/blog-2.webp',
+  '/assets/img/blog/blog-3.webp',
+  '/assets/img/blog/blog-4.webp',
+  '/assets/img/blog/blog-5.webp',
+  '/assets/img/blog/blog-6.webp',
+  '/assets/img/favicon1.png',
+  
+];
 
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
-});
-
-self.addEventListener('install', async (event) => {
+self.addEventListener('install', function (event) {
+  // Perform install steps
   event.waitUntil(
-    caches.open(CACHE)
-      .then((cache) => cache.add(offlineFallbackPage))
+    caches.open(CACHE_NAME)
+      .then(function (cache) {
+        console.log('Opened cache');
+        return cache.addAll(urlsToCache);
+      })
   );
 });
 
-if (workbox.navigationPreload.isSupported()) {
-  workbox.navigationPreload.enable();
-}
-
-self.addEventListener('fetch', (event) => {
-  if (event.request.mode === 'navigate') {
-    event.respondWith((async () => {
-      try {
-        const preloadResp = await event.preloadResponse;
-
-        if (preloadResp) {
-          return preloadResp;
+self.addEventListener('fetch', function (event) {
+  event.respondWith(
+    caches.match(event.request)
+      .then(function (response) {
+        // Cache hit - return response
+        if (response) {
+          return response;
         }
+        // Clone the request because it's a stream and can only be consumed once
+        var fetchRequest = event.request.clone();
+        // Make a network request and add it to the cache if successful
+        return fetch(fetchRequest)
+          .then(function (response) {
+            // Check if we received a valid response
+            if (!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+            // Clone the response because it's a stream and can only be consumed once
+            var responseToCache = response.clone();
+            caches.open(CACHE_NAME)
+              .then(function (cache) {
+                cache.put(event.request, responseToCache);
+              });
+            return response;
+          }
+          );
+      })
+  );
+});
 
-        const networkResp = await fetch(event.request);
-        return networkResp;
-      } catch (error) {
-
-        const cache = await caches.open(CACHE);
-        const cachedResp = await cache.match(offlineFallbackPage);
-        return cachedResp;
-      }
-    })());
-  }
+self.addEventListener('activate', function (event) {
+  // Remove outdated caches
+  event.waitUntil(
+    caches.keys().then(function (cacheNames) {
+      return Promise.all(
+        cacheNames.filter(function (cacheName) {
+          return cacheName.startsWith('my-site-cache-') && cacheName !== CACHE_NAME;
+        }).map(function (cacheName) {
+          return caches.delete(cacheName);
+        })
+      );
+    })
+  );
 });
